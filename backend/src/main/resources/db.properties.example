@@ -1,0 +1,6 @@
+# Copy this file to db.properties (same folder) and fill in the real values.
+# db.properties is gitignored - NEVER commit it.
+# Ask Jack for the Aiven connection details.
+db.url=jdbc:mysql://<aiven-host>:<port>/defaultdb?useSSL=true&requireSSL=true&serverTimezone=UTC
+db.user=avnadmin
+db.password=<aiven-password>

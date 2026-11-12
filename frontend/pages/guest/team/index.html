@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Team</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="stylesheet" href="/frontend/components/tables.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try {
+      if (localStorage.getItem('theme') === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {}
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<div id="navbar"></div>
+
+<main id="main-content" role="main" style="padding-top: var(--nav-height);">
+  <section class="section-page">
+    <div class="container-page">
+
+      <div style="text-align:right;margin-bottom:var(--space-24px);">
+        <a href="/frontend/pages/guest/team-search/index.html" class="content-link">
+          Explore more teams <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="tt-banner">
+        <div id="team-banner" class="tt-banner-img" style="background:linear-gradient(135deg,#0d0d0d,#1c1b1b,#0d0d0d);"></div>
+        <div class="tt-banner-overlay"></div>
+        <div class="tt-banner-info">
+          <h1 style="font-family:var(--font-mono);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#e5e2e1;margin-bottom:var(--space-12px);">
+            <span id="team-name"></span>
+            <span id="team-visibility-badge"></span>
+          </h1>
+          <div id="team-owner-wrapper" style="margin-bottom:var(--space-8px);">
+            <div id="team-owner" style="display:inline-flex;align-items:center;gap:var(--space-8px);text-decoration:none;color:inherit;"></div>
+          </div>
+          <div id="join-btn-wrapper" style="margin-top:var(--space-12px);"></div>
+        </div>
+      </div>
+
+      <div class="content-panel pad-lg scroll-reveal">
+        <h4 class="content-section-heading">
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:var(--space-8px);color:var(--warning);">campaign</span>
+          Group Shoutout
+        </h4>
+        <p id="team-shoutout" style="font-size:0.8125rem;color:var(--text-secondary);"></p>
+      </div>
+
+      <div class="content-grid-2col scroll-reveal" data-delay="150">
+        <div>
+          <div class="content-panel">
+            <h4 class="content-section-heading">
+              <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:var(--space-8px);">group</span>
+              Members
+            </h4>
+            <div id="member-table"></div>
+          </div>
+        </div>
+        <div>
+          <div class="content-panel pad-lg" style="margin-bottom:var(--space-24px);">
+            <h4 class="content-section-heading">Performance Matrix</h4>
+
+            <p class="content-meta" style="margin-bottom:var(--space-4px);">Group Throughput</p>
+            <div class="progress-terminal">
+              <div id="perf-throughput-bar" class="progress-fill" style="width:0%"></div>
+            </div>
+            <p id="perf-throughput-text" style="font-size:0.75rem;color:var(--text-muted);text-align:right;margin-bottom:var(--space-24px);">0%</p>
+
+            <div class="content-grid-2col-equal" style="text-align:center;">
+              <div class="content-panel pad-sm">
+                <p class="stat-number-sm" id="perf-total-solved">0</p>
+                <p class="stat-label-sm">Solved</p>
+              </div>
+              <div class="content-panel pad-sm">
+                <p class="stat-number-sm" id="perf-total-score">0</p>
+                <p class="stat-label-sm">Total Score</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-panel pad-lg" style="margin-bottom:var(--space-24px);">
+            <h4 class="content-section-heading">Group Solved Chart</h4>
+            <div style="display:flex;gap:0;margin-bottom:var(--space-16px);flex-wrap:wrap;">
+              <button class="chart-filter-btn active" data-filter="today">Today</button>
+              <button class="chart-filter-btn" data-filter="week">Week</button>
+              <button class="chart-filter-btn" data-filter="month">Month</button>
+              <button class="chart-filter-btn" data-filter="total">Total</button>
+            </div>
+            <div style="background:var(--bg-deep);border:1px solid var(--border-default);padding:var(--space-16px);">
+              <canvas id="team-solved-chart" height="180"></canvas>
+            </div>
+          </div>
+
+          <div class="content-panel pad-lg">
+            <h4 class="content-section-heading">
+              <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:var(--space-8px);color:var(--warning);">trophy</span>
+              Top Contributors
+            </h4>
+            <div id="top-contributors"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/navbar-guest.js"></script>
+<script src="/frontend/components/footer-guest.js"></script>
+<script src="/frontend/components/theme-toggle.js"></script>
+<script src="/frontend/components/scroll-reveal.js"></script>
+<script src="/frontend/components/spinner.js"></script>
+<script src="/frontend/components/skeleton.js"></script>
+<script src="/frontend/components/avatar.js"></script>
+<script src="/frontend/components/user-table.js"></script>
+<script src="/frontend/services/teamService.js"></script>
+<script src="/frontend/pages/guest/team/team.js"></script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

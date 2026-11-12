@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Settings</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode'); } catch (e) {}
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body data-auth="user">
+
+<div class="scanline"></div>
+<div id="navbar"></div>
+
+<main id="main-content" role="main" style="padding-top: var(--nav-height);">
+  <section class="section-page">
+    <div class="container-page">
+
+      <div class="scroll-reveal" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-16px);margin-bottom:var(--space-32px);">
+        <div>
+          <h2 class="content-section-heading" style="margin-bottom:var(--space-4px);">Settings</h2>
+          <p class="content-meta">Manage your account preferences.</p>
+        </div>
+        <div style="display:flex;gap:var(--space-12px);">
+        </div>
+      </div>
+
+      <div class="content-panel pad-lg scroll-reveal" data-delay="100" style="margin-bottom:var(--space-24px);">
+        <h4 class="content-section-heading">Appearance</h4>
+        <p class="content-meta" style="margin-bottom:var(--space-24px);">Choose how DevClimb looks on your device.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-16px);">
+          <div class="settings-theme-card-v2 active" onclick="setThemeMode('system');document.querySelectorAll('.settings-theme-card-v2').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+            <div class="theme-check">
+              <span class="material-symbols-outlined">check_circle</span>
+            </div>
+            <div class="theme-label" style="color:var(--accent)">System</div>
+            <div class="theme-mockup system">
+              <div class="mockup-bar"></div>
+              <div class="mockup-line sm"></div>
+              <div class="mockup-line"></div>
+            </div>
+          </div>
+          <div class="settings-theme-card-v2" onclick="setThemeMode('light');document.querySelectorAll('.settings-theme-card-v2').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+            <div class="theme-check">
+              <span class="material-symbols-outlined">check_circle</span>
+            </div>
+            <div class="theme-label">Light</div>
+            <div class="theme-mockup light">
+              <div class="mockup-bar"></div>
+              <div class="mockup-line sm"></div>
+              <div class="mockup-line"></div>
+            </div>
+          </div>
+          <div class="settings-theme-card-v2" onclick="setThemeMode('dark');document.querySelectorAll('.settings-theme-card-v2').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+            <div class="theme-check">
+              <span class="material-symbols-outlined">check_circle</span>
+            </div>
+            <div class="theme-label">Dark</div>
+            <div class="theme-mockup dark">
+              <div class="mockup-bar"></div>
+              <div class="mockup-line sm"></div>
+              <div class="mockup-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-panel pad-lg scroll-reveal" data-delay="200">
+        <h4 class="content-section-heading">Account</h4>
+
+        <div class="settings-action-list" style="margin-top:var(--space-24px);">
+          <button class="btn-devclimb secondary" id="changeEmailBtn" style="justify-content:flex-start;">
+            <span class="material-symbols-outlined" style="font-size:1rem;">mail</span>
+            Change Email
+          </button>
+          <button class="btn-devclimb secondary" id="changePasswordBtn" style="justify-content:flex-start;">
+            <span class="material-symbols-outlined" style="font-size:1rem;">key</span>
+            Change Password
+          </button>
+          <button class="btn-devclimb secondary" id="logoutBtn" style="justify-content:flex-start;color:var(--error);border-color:var(--error);">
+            <span class="material-symbols-outlined" style="font-size:1rem;">logout</span>
+            Logout
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+  function setThemeMode(mode) {
+    if (mode === 'light') {
+      document.documentElement.classList.add('light-mode');
+      localStorage.setItem('theme', 'light');
+    } else if (mode === 'dark') {
+      document.documentElement.classList.remove('light-mode');
+      localStorage.setItem('theme', 'dark');
+    }
+    if (typeof toggleTheme === 'function' && mode === 'dark') {
+      if (document.documentElement.classList.contains('light-mode')) toggleTheme();
+    }
+  }
+</script>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/navbar-user.js"></script>
+<script src="/frontend/components/avatar.js"></script>
+<script src="/frontend/components/footer-user.js"></script>
+<script src="/frontend/components/theme-toggle.js"></script>
+<script src="/frontend/components/scroll-reveal.js"></script>
+<script src="/frontend/components/spinner.js"></script>
+<script src="/frontend/services/warningService.js"></script>
+<script src="setting.js"></script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

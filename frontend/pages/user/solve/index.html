@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Solve</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="stylesheet" href="/frontend/assets/css/solve.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode'); } catch (e) {}
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body data-auth="user">
+
+<div class="scanline"></div>
+<div id="navbar"></div>
+
+<div class="solve-workspace" style="padding-top:var(--nav-height);">
+  <!-- LEFT: Problem Description -->
+  <div class="solve-pane-left">
+    <div class="solve-pane-header">
+      <span class="pane-label">Problem</span>
+      <div class="pane-dots">
+        <span class="pane-dot"></span><span class="pane-dot"></span><span class="pane-dot"></span>
+      </div>
+    </div>
+    <div class="solve-pane-body" id="puzzlePanel"></div>
+  </div>
+
+  <!-- MIDDLE: Code Editor -->
+  <div class="solve-pane-mid">
+    <div class="solve-editor-tabs">
+      <div class="tabs-left">
+        <span class="material-symbols-outlined" style="font-size:0.875rem;color:var(--accent);margin-right:var(--space-8px);">code</span>
+        <span id="solution-filename" style="font-family:var(--font-mono);font-size:0.75rem;font-weight:600;color:var(--text-primary);">solution.js</span>
+      </div>
+      <div class="tabs-right">
+        <div style="display:flex;align-items:center;gap:var(--space-4px);font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);">
+          <span class="material-symbols-outlined" style="font-size:0.875rem;">schedule</span>
+          <span id="timer">00:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="solve-editor-body">
+      <div id="codeEditor" style="height:100%;"></div>
+    </div>
+
+    <div class="solve-actions-bar">
+      <span style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:0.625rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-right:auto;">
+        <span style="width:6px;height:6px;background:var(--accent);display:inline-block;"></span>
+        <span id="solution-lang-name">JavaScript (Node.js)</span>
+      </span>
+      <button id="resetBtn" class="btn-devclimb secondary sm">Reset</button>
+      <button id="submitBtn" class="btn-devclimb primary sm">Submit</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Test Console -->
+  <div class="solve-pane-right">
+    <div class="solve-pane-header">
+      <span class="pane-label">Test Console</span>
+      <div style="display:flex;align-items:center;gap:var(--space-8px);">
+        <span style="width:6px;height:6px;background:var(--success);display:inline-block;"></span>
+        <span class="pane-label" style="color:var(--text-muted);">Live Status</span>
+      </div>
+    </div>
+    <div class="solve-console-inner">
+      <div class="solve-console-metrics">
+        <p class="content-meta" style="font-size:0.625rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:var(--space-8px);">Performance</p>
+        <div class="metric-row">
+          <span class="metric-label">Status</span>
+          <span id="statusText" class="metric-value pending">Waiting...</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Pass</span>
+          <span id="passResult" class="metric-value">-</span>
+        </div>
+      </div>
+      <div class="solve-console-feed" id="testCases">
+        <div style="padding:var(--space-16px);text-align:center;"><p class="content-meta">Run your code to see results</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/navbar-user.js"></script>
+<script src="/frontend/components/avatar.js"></script>
+<script src="/frontend/components/spinner.js"></script>
+<script src="/frontend/components/skeleton.js"></script>
+<script src="/frontend/components/popup.js"></script>
+<script src="/frontend/utils/contentParser.js"></script>
+<script src="/frontend/services/puzzleService.js"></script>
+<script src="/frontend/services/puzzleSolveService.js"></script>
+<script src="/frontend/services/submissionService.js"></script>
+<script src="solve.js"></script>
+<script src="puzzle.js" type="module"></script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

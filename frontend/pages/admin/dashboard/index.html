@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Admin Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="stylesheet" href="/frontend/components/tables.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode'); } catch (e) {}
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body>
+
+<div class="scanline"></div>
+<div id="navbar"></div>
+
+<main id="main-content" role="main" style="padding-top: var(--nav-height);">
+  <section class="section-page">
+    <div class="container-page">
+
+      <div class="scroll-reveal" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-16px);margin-bottom:var(--space-32px);">
+        <div>
+          <h2 class="content-section-heading" style="margin-bottom:var(--space-4px);">Admin Dashboard</h2>
+          <p class="content-meta">Operational overview of the DevClimb platform.</p>
+        </div>
+        <button id="btn-maintenance" class="btn-devclimb secondary">
+          <span class="material-symbols-outlined" style="font-size:0.875rem;">construction</span>
+          Maintenance Mode
+        </button>
+      </div>
+
+      <div class="admin-stat-grid scroll-reveal" data-delay="50" id="stat-grid" style="margin-bottom:var(--space-32px);">
+        <div class="admin-stat-card">
+          <p class="stat-number" id="stat-total-users">-</p>
+          <p class="stat-label">Total Users</p>
+          <p class="stat-sub" id="stat-total-users-sub">&nbsp;</p>
+        </div>
+        <div class="admin-stat-card">
+          <p class="stat-number" id="stat-total-teams">-</p>
+          <p class="stat-label">Total Teams</p>
+          <p class="stat-sub" id="stat-total-teams-sub">&nbsp;</p>
+        </div>
+        <div class="admin-stat-card">
+          <p class="stat-number" id="stat-total-puzzles">-</p>
+          <p class="stat-label">Total Puzzles</p>
+          <p class="stat-sub" id="stat-total-puzzles-sub">&nbsp;</p>
+        </div>
+        <div class="admin-stat-card">
+          <p class="stat-number" id="stat-solved-puzzles">-</p>
+          <p class="stat-label">Solved Puzzles</p>
+          <p class="stat-sub" id="stat-solved-puzzles-sub">&nbsp;</p>
+        </div>
+      </div>
+
+      <div class="content-panel pad-lg scroll-reveal" data-delay="100" style="margin-bottom:var(--space-24px);">
+        <h4 class="content-section-heading">Quick Actions</h4>
+        <p class="content-meta" style="margin-bottom:var(--space-16px);">Manage the platform quickly using the shortcuts below.</p>
+        <div class="admin-action-row">
+          <button id="btn-manage-teams" class="btn-devclimb primary sm">
+            <span class="material-symbols-outlined" style="font-size:0.875rem;">groups</span>
+            Manage Teams
+          </button>
+          <button id="btn-manage-users" class="btn-devclimb primary sm">
+            <span class="material-symbols-outlined" style="font-size:0.875rem;">person</span>
+            Manage Users
+          </button>
+          <button id="btn-manage-puzzles" class="btn-devclimb primary sm">
+            <span class="material-symbols-outlined" style="font-size:0.875rem;">extension</span>
+            Manage Puzzles
+          </button>
+        </div>
+      </div>
+
+      <div class="content-panel pad-lg scroll-reveal" data-delay="150" style="margin-bottom:var(--space-32px);">
+        <h4 class="content-section-heading">Content Moderation</h4>
+        <p class="content-meta" style="margin-bottom:var(--space-16px);">Create new puzzles and review user appeals.</p>
+        <div class="admin-action-row">
+          <button id="btn-add-puzzle" class="btn-devclimb secondary sm">
+            <span class="material-symbols-outlined" style="font-size:0.875rem;">add_circle</span>
+            Add Puzzle
+          </button>
+          <button id="btn-view-appeals" class="btn-devclimb secondary sm">
+            <span class="material-symbols-outlined" style="font-size:0.875rem;">forum</span>
+            View Appeals
+          </button>
+        </div>
+      </div>
+
+      <div class="content-panel pad-lg scroll-reveal" data-delay="200" style="margin-bottom:var(--space-24px);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:var(--space-16px);margin-bottom:var(--space-32px);">
+          <div>
+            <h4 class="content-section-heading" style="margin-bottom:var(--space-4px);">Solved Puzzles Analytics</h4>
+            <p class="content-meta">Track puzzle solving performance over time.</p>
+          </div>
+          <div class="chart-filter-row">
+            <button class="active" data-filter="today">Today</button>
+            <button data-filter="week">Week</button>
+            <button data-filter="month">Month</button>
+            <button data-filter="3months">3 Months</button>
+            <button data-filter="total">Total</button>
+          </div>
+        </div>
+
+        <div class="chart-box" id="stat-chart-area" style="background:var(--bg-deep);border:1px solid var(--border-default);padding:var(--space-24px);margin-bottom:var(--space-24px);">
+          <canvas id="solvedChart" height="280"></canvas>
+        </div>
+
+        <div class="admin-chart-stat-row">
+          <div>
+            <p class="chart-stat-value" id="stat-solved-today">-</p>
+            <p class="chart-stat-label">Today</p>
+          </div>
+          <div>
+            <p class="chart-stat-value" id="stat-solved-week">-</p>
+            <p class="chart-stat-label">This Week</p>
+          </div>
+          <div>
+            <p class="chart-stat-value" id="stat-solved-month">-</p>
+            <p class="chart-stat-label">This Month</p>
+          </div>
+          <div>
+            <p class="chart-stat-value" id="stat-solved-3months">-</p>
+            <p class="chart-stat-label">3 Months</p>
+          </div>
+          <div>
+            <p class="chart-stat-value" id="stat-solved-all">-</p>
+            <p class="chart-stat-label">Total</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-panel pad-lg danger-zone scroll-reveal" data-delay="250">
+        <div style="display:flex;align-items:center;gap:var(--space-16px);margin-bottom:var(--space-24px);">
+          <span class="material-symbols-outlined" style="font-size:2rem;color:var(--error);flex-shrink:0;">warning</span>
+          <div>
+            <h3 class="content-section-heading" style="margin-bottom:var(--space-4px);">Danger Zone</h3>
+            <p class="content-meta">This action is permanent and cannot be undone.</p>
+          </div>
+        </div>
+
+        <div class="content-panel pad-lg" style="border-color:var(--error);">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-16px);margin-bottom:var(--space-16px);">
+            <div>
+              <h4 style="font-family:var(--font-mono);font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-primary);margin-bottom:var(--space-4px);">Delete All Progress</h4>
+              <p class="content-meta">Reset every solved puzzle and leaderboard.</p>
+            </div>
+            <span class="material-symbols-outlined" style="font-size:1.5rem;color:var(--error);">bar_chart</span>
+          </div>
+          <button id="btn-reset-progress" class="btn-devclimb secondary" style="width:100%;justify-content:center;border-color:var(--error);color:var(--error);">
+            <span class="material-symbols-outlined" style="font-size:0.875rem;">delete</span>
+            Reset Progress
+          </button>
+        </div>
+
+        <div class="content-panel pad-sm" style="margin-top:var(--space-16px);border-color:var(--error);background:rgba(239,68,68,0.05);">
+          <p style="font-size:0.75rem;color:var(--error);font-weight:600;letter-spacing:0.04em;">
+            <span class="material-symbols-outlined" style="font-size:0.875rem;vertical-align:middle;">error</span>
+            <strong>Warning:</strong> This action permanently deletes all progress data and cannot be recovered.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script src="/frontend/components/footer-user.js"></script>
+<script src="/frontend/components/spinner.js"></script>
+<script src="/frontend/components/skeleton.js"></script>
+<script src="/frontend/components/avatar.js"></script>
+<script src="/frontend/components/popup.js"></script>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/navbar-user.js"></script>
+<script src="/frontend/components/theme-toggle.js"></script>
+<script src="/frontend/components/scroll-reveal.js"></script>
+<script src="/frontend/utils/modal-polyfill.js"></script>
+<script src="/frontend/utils/dropdown-polyfill.js"></script>
+<script src="/frontend/utils/tab-polyfill.js"></script>
+<script src="/frontend/services/adminAuthService.js"></script>
+<script src="/frontend/components/card-table.js"></script>
+<script src="/frontend/components/puzzle-table.js"></script>
+<script src="/frontend/services/adminDashboardService.js"></script>
+<script src="dashboard.js"></script>
+
+<script>
+  window.addEventListener('deps-ready', function () { initDashboard(); });
+</script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

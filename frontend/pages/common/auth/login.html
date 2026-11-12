@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Admin Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try {
+      if (localStorage.getItem('theme') === 'light')
+        document.documentElement.classList.add('light-mode');
+    } catch (e) { }
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<main id="main-content" role="main" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:var(--space-lg);">
+  <section class="auth-page" style="padding-top:0;">
+    <div class="auth-card scroll-reveal">
+      <h1 class="auth-heading">Admin Login</h1>
+      <p class="auth-sub">
+        This page is for administrator access only. Please contact another staff member if you are having trouble logging in.
+      </p>
+
+      <form class="auth-form" id="loginForm">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter email">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password">
+
+        <div class="auth-error" id="loginError"></div>
+
+        <button type="submit" class="auth-btn">Login</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/spinner.js"></script>
+<script src="/frontend/services/authUiService.js"></script>
+<script src="/frontend/pages/guest/auth/auth.js"></script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

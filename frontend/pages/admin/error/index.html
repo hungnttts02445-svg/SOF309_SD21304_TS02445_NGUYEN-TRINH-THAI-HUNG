@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Admin 404</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode'); } catch (e) {}
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body>
+
+<div class="scanline"></div>
+<div id="navbar"></div>
+
+<main id="main-content" role="main" style="min-height:calc(100vh - var(--nav-height));display:flex;align-items:center;justify-content:center;padding:var(--space-24px);padding-top:calc(var(--nav-height) + var(--space-48px));">
+  <div style="max-width:720px;width:100%;">
+
+    <div class="content-panel" style="text-align:center;max-width:500px;margin:0 auto var(--space-24px);">
+      <div style="width:80px;height:80px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);display:inline-flex;align-items:center;justify-content:center;margin-bottom:var(--space-24px);">
+        <span class="material-symbols-outlined" style="font-size:40px;color:var(--error);">shield_alert</span>
+      </div>
+      <h1 style="font-family:var(--font-mono);font-size:clamp(3rem,8vw,5rem);font-weight:700;color:var(--error);line-height:1;">404</h1>
+      <h2 style="font-family:var(--font-mono);font-size:1.125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-primary);margin:var(--space-16px) 0;">Admin Page Not Found</h2>
+      <p style="color:var(--text-secondary);margin-bottom:var(--space-24px);">The requested admin route does not exist.</p>
+      <div style="display:flex;gap:var(--space-12px);justify-content:center;flex-wrap:wrap;">
+        <a href="/frontend/pages/admin/dashboard/index.html" class="btn-devclimb primary">Dashboard</a>
+        <a href="/frontend/index.html" class="btn-devclimb secondary">Website Home</a>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-16px);margin-bottom:var(--space-24px);">
+      <div class="content-panel pad-sm">
+        <h4 style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-primary);margin-bottom:var(--space-8px);">Invalid Route</h4>
+        <p style="font-size:0.75rem;color:var(--text-secondary);">The URL you entered is not a valid admin endpoint.</p>
+      </div>
+      <div class="content-panel pad-sm">
+        <h4 style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-primary);margin-bottom:var(--space-8px);">Permission</h4>
+        <p style="font-size:0.75rem;color:var(--text-secondary);">Access requires administrator credentials.</p>
+      </div>
+      <div class="content-panel pad-sm">
+        <h4 style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-primary);margin-bottom:var(--space-8px);">Administrator Tips</h4>
+        <p style="font-size:0.75rem;color:var(--text-secondary);">Use the dashboard navigation to manage users, teams, and puzzles.</p>
+      </div>
+    </div>
+
+    <div class="content-panel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-12px);text-align:center;padding:var(--space-24px);">
+      <a href="/frontend/pages/admin/dashboard/index.html" class="btn-devclimb secondary sm">Dashboard</a>
+      <a href="/frontend/pages/user/user-search/index.html" class="btn-devclimb secondary sm">Users</a>
+      <a href="/frontend/pages/user/puzzle/index.html" class="btn-devclimb secondary sm">Puzzles</a>
+      <a href="/frontend/pages/user/team-search/index.html" class="btn-devclimb secondary sm">Teams</a>
+    </div>
+
+  </div>
+</main>
+
+<div id="footer"></div>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/navbar-user.js"></script>
+<script src="/frontend/components/avatar.js"></script>
+<script src="/frontend/components/footer-user.js"></script>
+<script src="/frontend/components/theme-toggle.js"></script>
+<script src="/frontend/components/scroll-reveal.js"></script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

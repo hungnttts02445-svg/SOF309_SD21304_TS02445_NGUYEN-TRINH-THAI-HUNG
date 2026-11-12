@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | 404</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<main id="main-content" role="main" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:var(--space-24px);">
+  <div class="content-panel" style="text-align:center;max-width:480px;">
+    <div style="width:80px;height:80px;background:var(--bg-hover);border:1px solid var(--border-default);display:inline-flex;align-items:center;justify-content:center;margin-bottom:var(--space-24px);">
+      <span class="material-symbols-outlined" style="font-size:40px;color:var(--accent);">warning</span>
+    </div>
+    <h1 style="font-family:var(--font-mono);font-size:clamp(3rem,8vw,5rem);font-weight:700;color:var(--accent);line-height:1;">404</h1>
+    <h2 style="font-family:var(--font-mono);font-size:1.125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-primary);margin:var(--space-16px) 0;">Page Not Found</h2>
+    <p style="color:var(--text-secondary);margin-bottom:var(--space-32px);">The requested resource does not exist or has been moved.</p>
+    <a href="/frontend/index.html" class="btn-devclimb primary">Return Home</a>
+  </div>
+</main>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

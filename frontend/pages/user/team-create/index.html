@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Create Team</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode'); } catch (e) {}
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body data-auth="user">
+
+<div class="scanline"></div>
+<div id="navbar"></div>
+
+<main id="main-content" role="main" style="padding-top: var(--nav-height);">
+  <section class="section-page">
+    <div class="container-page">
+
+      <h1 class="page-title scroll-reveal" style="text-align:center;">Create a Team</h1>
+
+      <div class="content-panel pad-lg scroll-reveal" data-delay="100" style="max-width:720px;margin:0 auto;">
+
+        <div style="margin-bottom:var(--space-24px);">
+          <label for="create-team-name" style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--space-4px);">Team Name</label>
+          <input type="text" id="create-team-name" placeholder="Enter your team name" maxlength="100">
+          <div id="create-team-name-error" class="d-none" style="font-size:0.75rem;color:var(--error);margin-top:var(--space-4px);"></div>
+        </div>
+
+        <div style="margin-bottom:var(--space-24px);">
+          <label style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--space-4px);">Team Image</label>
+          <input type="file" id="create-team-avatar" accept="image/*" hidden>
+          <label for="create-team-avatar" class="upload-area">
+            <img id="create-avatar-preview" class="upload-preview">
+            <div id="create-upload-content">
+              <div class="upload-icon">
+                <span class="material-symbols-outlined" style="font-size:2.5rem;">cloud_upload</span>
+              </div>
+              <p style="font-weight:600;text-transform:uppercase;letter-spacing:0.06em;font-size:0.8125rem;color:var(--text-primary);margin:var(--space-8px) 0 var(--space-4px);">Click or drag image here</p>
+              <p class="upload-text">PNG, JPG, WEBP supported</p>
+            </div>
+          </label>
+        </div>
+
+        <div style="margin-bottom:var(--space-24px);">
+          <label for="create-team-shoutout" style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--space-4px);">Shoutout (Optional)</label>
+          <textarea id="create-team-shoutout" rows="4" maxlength="500" placeholder="Give your team a short description..." style="resize:none;"></textarea>
+        </div>
+
+        <div style="margin-bottom:var(--space-24px);">
+          <label style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--space-12px);">Team Visibility</label>
+          <div class="visibility-toggle-grid">
+            <div class="visibility-card active" data-type="public">
+              <div class="vis-icon">
+                <span class="material-symbols-outlined">public</span>
+              </div>
+              <div class="vis-label">Public</div>
+              <p class="content-meta" style="font-size:0.6875rem;margin-top:var(--space-4px);">Anyone can discover and join.</p>
+            </div>
+            <div class="visibility-card" data-type="private">
+              <div class="vis-icon">
+                <span class="material-symbols-outlined">lock</span>
+              </div>
+              <div class="vis-label">Private</div>
+              <p class="content-meta" style="font-size:0.6875rem;margin-top:var(--space-4px);">Only invited members can join.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:var(--space-12px);">
+          <button id="create-btn" class="btn-devclimb primary">Create Team</button>
+          <a href="/frontend/pages/user/team-search/index.html" class="btn-devclimb secondary">Cancel</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/navbar-user.js"></script>
+<script src="/frontend/components/avatar.js"></script>
+<script src="/frontend/components/footer-user.js"></script>
+<script src="/frontend/components/theme-toggle.js"></script>
+<script src="/frontend/components/scroll-reveal.js"></script>
+<script src="/frontend/components/spinner.js"></script>
+<script src="/frontend/services/teamService.js"></script>
+
+<script>
+  var visibilityCards = document.querySelectorAll('.visibility-card');
+  visibilityCards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      visibilityCards.forEach(function (c) { c.classList.remove('active'); });
+      card.classList.add('active');
+    });
+  });
+
+  var avatarInput = document.getElementById('create-team-avatar');
+  var avatarPreview = document.getElementById('create-avatar-preview');
+  var uploadContent = document.getElementById('create-upload-content');
+  avatarInput.addEventListener('change', function () {
+    var file = this.files[0];
+    if (!file) return;
+    avatarPreview.src = URL.createObjectURL(file);
+    avatarPreview.style.display = 'block';
+    uploadContent.style.display = 'none';
+  });
+
+  document.getElementById('create-btn').addEventListener('click', async function () {
+    var btn = this;
+    var name = document.getElementById('create-team-name').value.trim();
+    var shoutout = document.getElementById('create-team-shoutout').value.trim();
+    var activeCard = document.querySelector('.visibility-card.active');
+    var isPublic = activeCard ? activeCard.getAttribute('data-type') === 'public' : true;
+    var nameError = document.getElementById('create-team-name-error');
+    nameError.classList.add('d-none');
+
+    if (!name) {
+      nameError.textContent = 'Team name is required';
+      nameError.classList.remove('d-none');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Creating...';
+
+    var res = await createTeam({
+      name: name,
+      shoutout: shoutout || null,
+      isPublic: isPublic
+    });
+
+    if (res && res.teamId) {
+      var file = avatarInput.files[0];
+      if (file) {
+        btn.textContent = 'Uploading image...';
+        var uploadRes = await apiUpload('/upload/team-avatar', file, { teamId: res.teamId });
+      }
+      window.location.href = '/frontend/pages/user/team/index.html?id=' + res.teamId;
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Create Team';
+      var err = res ? res.error || 'Failed to create team' : 'Failed to create team';
+      if (err.toLowerCase().indexOf('duplicate') !== -1 || err.toLowerCase().indexOf('already exist') !== -1) {
+        nameError.textContent = 'A team with this name already exists';
+      } else {
+        nameError.textContent = err;
+      }
+      nameError.classList.remove('d-none');
+    }
+  });
+</script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>

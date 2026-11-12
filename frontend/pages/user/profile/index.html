@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVCLIMB | Profile</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/frontend/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/assets/css/reset.css">
+  <link rel="stylesheet" href="/frontend/assets/css/components.css">
+  <link rel="stylesheet" href="/frontend/components/tables.css">
+  <link rel="icon" href="/frontend/assets/images/devclimbicon.png">
+
+  <script>
+    try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-mode'); } catch (e) {}
+  </script>
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</head>
+<body data-auth="user">
+
+<div class="scanline"></div>
+<div id="navbar"></div>
+
+<main id="main-content" role="main" style="padding-top: var(--nav-height);">
+  <section class="section-page">
+    <div class="container-page">
+
+      <div style="text-align:right;margin-bottom:var(--space-24px);">
+        <a href="/frontend/pages/user/user-search/index.html" class="content-link">
+          Explore more users <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="content-panel pad-lg scroll-reveal" style="margin-bottom:var(--space-32px);">
+        <div class="profile-header">
+          <div id="profile-avatar" class="profile-header-avatar"></div>
+          <div class="profile-header-main">
+            <h2 class="content-section-heading profile-header-name" id="profile-displayname">Loading...</h2>
+            <p class="content-meta profile-header-bio" id="profile-bio"></p>
+            <p class="profile-score-line">
+              <strong>Total Score:</strong> <span id="profile-score">0</span>
+              <span class="profile-score-dot">&middot;</span>
+              <span id="profile-completed">0</span> puzzles solved
+            </p>
+          </div>
+          <div id="edit-btn-wrapper" class="profile-header-edit"></div>
+        </div>
+      </div>
+
+      <div class="content-grid-2col-equal scroll-reveal" data-delay="50" style="margin-bottom:var(--space-32px);">
+        <div class="content-panel pad-lg">
+          <h4 class="content-section-heading">Solve Distribution</h4>
+          <canvas id="langChart" height="260"></canvas>
+        </div>
+        <div class="content-panel pad-lg">
+          <div class="content-section-heading" style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-8px);flex-wrap:wrap;margin-bottom:var(--space-16px);">
+            <span>Activity</span>
+            <div style="display:flex;flex-wrap:wrap;gap:0;">
+              <button class="chart-filter-btn active" data-filter="today">Today</button>
+              <button class="chart-filter-btn" data-filter="week">Week</button>
+              <button class="chart-filter-btn" data-filter="month">Month</button>
+              <button class="chart-filter-btn" data-filter="total">Total</button>
+            </div>
+          </div>
+          <canvas id="profile-activity-chart" height="250"></canvas>
+          <div class="admin-chart-stat-row" id="profile-activity-stats">
+              <div><p class="chart-stat-value" id="stat-solved-today">-</p><p class="chart-stat-label">Today</p></div>
+            <div><p class="chart-stat-value" id="stat-solved-week">-</p><p class="chart-stat-label">This Week</p></div>
+            <div><p class="chart-stat-value" id="stat-solved-month">-</p><p class="chart-stat-label">This Month</p></div>
+            <div><p class="chart-stat-value" id="stat-solved-all">-</p><p class="chart-stat-label">Total</p></div>
+          </div>
+        </div>
+      </div>
+
+      <a id="group-banner" class="tt-banner scroll-reveal" data-delay="100" style="margin-bottom:var(--space-24px);display:none;text-decoration:none;color:inherit;" href="#">
+        <div id="group-banner-bg" class="tt-banner-img" style="height:200px;background:linear-gradient(135deg,#0d0d0d,#1c1b1b,#0d0d0d);"></div>
+        <div class="tt-banner-overlay"></div>
+        <div class="tt-banner-info" style="padding-left:var(--space-32px);">
+          <h3 id="group-heading" style="font-family:var(--font-mono);font-size:clamp(1.25rem,2.5vw,1.5rem);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#e5e2e1;margin-bottom:var(--space-4px);">My Group</h3>
+          <p class="content-meta" id="group-members"></p>
+        </div>
+      </a>
+
+      <h3 class="content-section-heading" style="margin-top:var(--space-16px);">Solved Puzzles</h3>
+      <div class="content-panel scroll-reveal" data-delay="150" id="solved-box">
+        <div id="solved-table"></div>
+      </div>
+
+      <h3 class="content-section-heading" style="margin-top:var(--space-32px);">Badge Collection</h3>
+      <div class="content-panel scroll-reveal" data-delay="200" style="padding:var(--space-24px);" id="badge-collection-wrapper">
+        <div id="badge-collection-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-16px);"></div>
+        <div id="badge-collection-pagination" class="cg-pagination"></div>
+        <p id="badge-collection-empty" style="display:none;text-align:center;color:var(--text-muted);font-size:0.8125rem;padding:var(--space-32px) 0;">No badges earned yet. Solve contest puzzles to earn badges!</p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" id="editProfileModal">
+  <div class="modal-panel">
+    <div class="modal-heading">
+      Edit Profile
+      <button data-bs-dismiss="modal">&times;</button>
+    </div>
+    <label for="edit-avatar-input" style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--space-4px);">Avatar</label>
+    <input type="file" id="edit-avatar-input" accept="image/*" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">
+    <label for="edit-avatar-input" class="btn-devclimb secondary sm" style="display:inline-flex;margin-bottom:var(--space-8px);">Choose File</label>
+    <span id="edit-avatar-filename" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);margin-left:var(--space-8px);">No file chosen</span>
+    <input type="text" id="edit-avatar-url" placeholder="Or paste image URL..." style="margin-bottom:var(--space-16px);">
+    <label for="edit-username-input" style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--space-4px);">Username</label>
+    <input type="text" id="edit-username-input" maxlength="30" style="width:100%;margin-bottom:var(--space-16px);">
+    <label for="edit-bio-input" style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--space-4px);">Bio</label>
+    <textarea id="edit-bio-input" rows="4" maxlength="100" style="width:100%;resize:none;"></textarea>
+    <div class="modal-actions">
+      <button class="btn-devclimb secondary sm" data-bs-dismiss="modal">Cancel</button>
+      <button class="btn-devclimb primary sm" id="save-profile-btn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="trophyCaseModal">
+  <div class="modal-panel" style="max-width:600px;">
+    <div class="modal-heading">
+      Trophy Case
+      <button onclick="document.getElementById('trophyCaseModal').classList.remove('show');">&times;</button>
+    </div>
+    <div id="trophy-case-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:var(--space-12px);">
+    </div>
+    <p id="trophy-case-empty" style="text-align:center;color:var(--text-muted);font-size:0.8125rem;padding:var(--space-32px) 0;display:none;">No trophies earned yet.</p>
+  </div>
+</div>
+
+<div id="footer"></div>
+
+<script src="/frontend/utils/core.js"></script>
+<script src="/frontend/components/navbar-user.js"></script>
+<script src="/frontend/components/footer-user.js"></script>
+<script src="/frontend/components/scroll-reveal.js"></script>
+<script src="/frontend/utils/modal-polyfill.js"></script>
+<script src="/frontend/components/spinner.js"></script>
+<script src="/frontend/components/skeleton.js"></script>
+<script src="/frontend/components/avatar.js"></script>
+<script src="/frontend/components/puzzle-table.js"></script>
+<script src="/frontend/services/profileService.js"></script>
+<script src="profile.js"></script>
+
+<script src="/frontend/components/gsap-navbar-shuffle.js"></script>
+</body>
+</html>
