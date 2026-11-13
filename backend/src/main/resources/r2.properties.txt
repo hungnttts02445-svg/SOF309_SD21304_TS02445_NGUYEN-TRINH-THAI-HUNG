@@ -1,0 +1,5 @@
+r2.account-id=09b1035d7ae5cea9023d1a2b66d419fa
+r2.access-key=c68acdcb22ab495e100782fba20a7503
+r2.secret-key=8c569e4232963ea3425cffd51c3fcfb84397e68625598982e8dc2534b910164b
+r2.bucket-name=devclimb-storage
+r2.public-url=https://avatars.devclimb.online
